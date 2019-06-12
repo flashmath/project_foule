@@ -30,3 +30,8 @@ class Element():
     
     def __str__(self):
         return '(' + str(self.posX) + ";" + str(self.posY) + ')'
+
+class Obstacle(Element):
+    """
+    une classe pour définir un Obstacle sur la carte
+    """
