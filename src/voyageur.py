@@ -24,12 +24,11 @@ class Element():
     """
     une classe pour définir les éléments sur la carte
     """
-    def __init__(self,positionX,positionY):     # Position de l'objet dans la carte
-        self.posX = positionX         
-        self.posY = positionY     
+    def __init__(self,position):     # Position de l'objet dans la carte
+        self.pos = position         
     
     def __str__(self):
-        return 'Position : ' + '(' + str(self.posX) + ";" + str(self.posY) + ')'
+        return 'Position : ' + '(' + str(self.pos.x) + ";" + str(self.pos.y) + ')'
 
 class Obstacle(Element):
     """
@@ -40,14 +39,14 @@ class Voyageur(Element):
     """
     une classe pour définir un Voyageur sur la carte
     """
-    def __init__(self,positionX,positionY,destinationX,destinationY):     # Position courante et destination
-        self.posX = positionX         
-        self.posY = positionY
-        self.destX = destinationX         
-        self.destY = destinationY     
+    def __init__(self,position,destination):     # Position courante et destination
+        self.pos = position         
+        self.dest = destination
     
     def __str__(self):
-        return 'Position courante : ' + '(' + str(self.posX) + ";" + str(self.posY) + ')' + '\n' + 'Destination : ' + '(' + str(self.destX) + ";" + str(self.destY) + ')'
+        return 'Position courante : ' + '(' + str(self.pos.x) + ";" + str(self.pos.y) + ')' + '\n' + 'Destination : ' + '(' + str(self.dest.x) + ";" + str(self.dest.y) + ')'
 
-v=Voyageur(10,11,12,13)
+p=Point(10,11)
+d=Point(12,13)
+v=Voyageur(p,d)
 print(v)
