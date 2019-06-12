@@ -8,3 +8,14 @@ class Point():
 
     def __str__(self):
         return '(' + str(self.x) + ";" + str(self.y) + ')'
+        
+class Vecteur():
+    """
+    une classe pour le vecteur vitesse
+    """
+    def __init__(self,vx,vy):
+        self.vx = vx         
+        self.vy = vy       
+
+    def __str__(self):
+        return '(' + str(self.vx) + ";" + str(self.vy) + ')'
