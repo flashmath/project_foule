@@ -1,7 +1,10 @@
 class Point():
     """
-    une classe pour définir les coordonnées d'un point
+    une classe pour les points
     """
     def __init__(self,x,y):
-        self.x = x         #self, c'est soit même 
-        self.y = y         #self, c'est soit même 
+        self.x = x         
+        self.y = y       
+
+    def __str__(self):
+        return '(' + str(self.x) + ";" + str(self.y) + ')'
