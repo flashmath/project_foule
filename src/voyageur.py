@@ -9,6 +9,7 @@ class Point():
     def __str__(self):
         return 'Coordonnées du point : ' + '(' + str(self.x) + ";" + str(self.y) + ')'
         
+
 class Vecteur():
     """
     une classe pour le vecteur vitesse
@@ -20,6 +21,7 @@ class Vecteur():
     def __str__(self):
         return 'Vecteur vitesse : ' + '(' + str(self.vx) + ";" + str(self.vy) + ')'
         
+
 class Element():
     """
     une classe pour définir les éléments sur la carte
@@ -30,11 +32,13 @@ class Element():
     def __str__(self):
         return 'Position : ' + '(' + str(self.pos.x) + ";" + str(self.pos.y) + ')'
 
+
 class Obstacle(Element):
     """
     une classe pour définir un Obstacle sur la carte
     """
     
+
 class Voyageur(Element):
     """
     une classe pour définir un Voyageur sur la carte
@@ -49,10 +53,43 @@ class Voyageur(Element):
     def setPos(self,newPosition):               # Méthode permettant de changer la position du voyageur
         self.pos=newPosition
 
-p=Point(10,11)
-d=Point(12,13)
+
+class Carte():
+    """
+    une classe pour la carte qui va contenir les éléments (obstacles et voyageurs) de la carte
+    ainsi que la grille (matrice) positionnant les éléments
+    """
+    def __init__(self,dimensionsCarte,dimensionsGrille):
+        self.dimCarte = dimensionsCarte          # dimension (largeur et hauteur) de la carte en pixels
+        self.dimGrille = dimensionsGrille        # dimension (nombre de lignes et nombre de colonnes) de la grille
+        self.elements = []                      # liste qui va contenir tous les élements de la carte
+        self.grille = dimensionsGrille.x*[dimensionsGrille.y*[False]]  # Matrice dont chaque élément vaut true (si un élément) ou false sinon 
+        
+    def ajouter_element(self,element):  # Méthode pour ajouter un élément à la carte
+        self.grille[element.pos.x][element.pos.y]=True    # On indique dans grille qu'un élément est présent en (x,y)
+        self.elements.append(element)                   # On ajoute cet élément à la liste des éléments de la carte 
+        
+    def retirer_element(self,element):  # Méthode pour retirer un élément de la carte
+        self.grille[element.pos.x][element.pos.y]=False  # On indique dans grille que l'élément n'est plus présent en (x,y) 
+        self.elements.remove(element) # On retire cet élément de la liste des éléments de la carte
+
+    def deplacer_element(self,element):    # Fonction qui déplace un élément dans la carte
+        pass                               # A faire
+
+    def __str__(self):
+        return 'Carte=' + '(' + str(self.dimCarte.x) + ";" + str(self.dimCarte.y) + ')' + '\n' + 'Grille=' + '(' + str(self.dimGrille.x) + ";" + str(self.dimGrille.y) + ')' + '\n' + 'Nb éléments : ' + str(len(self.elements))
+     
+        
+p=Point(2,3)
+d=Point(5,6)
 v=Voyageur(p,d)
 print(v)
-np=Point(100,110)
+np=Point(8,9)
 v.setPos(np)
 print(v)
+dimensions=Point(10,10)
+g=Carte(dimensions,dimensions)
+g.ajouter_element(v)
+print(g)
+g.retirer_element(v)
+print(g)
