@@ -46,7 +46,13 @@ class Voyageur(Element):
     def __str__(self):
         return 'Position courante : ' + '(' + str(self.pos.x) + ";" + str(self.pos.y) + ')' + '\n' + 'Destination : ' + '(' + str(self.dest.x) + ";" + str(self.dest.y) + ')'
 
+    def setPos(self,newPosition):               # Méthode permettant de changer la position du voyageur
+        self.pos=newPosition
+
 p=Point(10,11)
 d=Point(12,13)
 v=Voyageur(p,d)
+print(v)
+np=Point(100,110)
+v.setPos(np)
 print(v)
