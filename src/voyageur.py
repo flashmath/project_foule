@@ -19,3 +19,14 @@ class Vecteur():
 
     def __str__(self):
         return '(' + str(self.vx) + ";" + str(self.vy) + ')'
+        
+class Element():
+    """
+    une classe pour définir les éléments sur la carte
+    """
+    def __init__(self,positionX,positionY):     # Position courante de l'objet dans la carte
+        self.posX = positionX         
+        self.posY = positionY     
+    
+    def __str__(self):
+        return '(' + str(self.posX) + ";" + str(self.posY) + ')'
