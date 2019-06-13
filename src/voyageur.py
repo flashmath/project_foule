@@ -157,8 +157,8 @@ class Carte():
         while self.compteurVoyageurs != 0:       # Tant qu'il y a un voyageur dans la carte
             for elem in self.elements:
                 self.deplacer_voyageur(elem)
-                self.afficher_grille()
-                print('\n')
+                #self.afficher_grille()
+                #print('\n')
        
     def __str__(self):
         return 'Carte=' + '(' + str(self.dimCarte.x) + ";" + str(self.dimCarte.y) + ')' + '\n' + 'Grille=' + '(' + str(self.dimGrille.x) + ";" + str(self.dimGrille.y) + ')' + '\n' + 'Nb éléments : ' + str(len(self.elements))
