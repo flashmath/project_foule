@@ -39,7 +39,21 @@ class Carte:
             retour.append(self.movents[i])
         return retour
 
+    def nouveau_pas(self):
+        for j in range(len(self.movents)):
+            voyageur = self.movents[j]
 
+            # Détection de l'environnement
+            obstacles = self.detectElements(voyageur)
+            obstacles.remove(voyageur)
+
+            # décide du mouvement
+            newCoord = voyageur.decideMovement(obstacles)
+
+            # effectue son mouvement
+            voyageur.deplace(newCoord)
+        # endTime=time()
+        # time.sleep(1/25-(endTime-beginTime))
 
 
 

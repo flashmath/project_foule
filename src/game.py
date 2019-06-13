@@ -43,7 +43,6 @@ def main():
             voyageur.deplace(newCoord)
         # endTime=time()
         # time.sleep(1/25-(endTime-beginTime))
-        time.sleep(0.03)
         draw(ecran,carte)
 
     pygame.quit()

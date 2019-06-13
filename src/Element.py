@@ -1,6 +1,7 @@
 from project_foule.src.Carte import *
+from project_foule.src.Observable import *
 
-class Element:
+class Element(Observable):
     """
             Classe gérant les éléments d'une carte
         """
@@ -17,6 +18,7 @@ class Element:
 
                     .. warning:: classe peu implémentée à finir
                 """
+        Observable.__init__(self)
         self.map = map
         self.position = depart
         self.map.addElement(self)

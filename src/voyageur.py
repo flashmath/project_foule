@@ -1,4 +1,5 @@
 from project_foule.src.Element import *
+from project_foule.src.coord import *
 import pygame
 
 class Voyageur(Element):
@@ -51,7 +52,4 @@ class Voyageur(Element):
         self.position.x = newCoord.x
         self.position.y = newCoord.y
         self.map.deplaceElement(self)
-
-
-    def draw(self,surface):
-        pygame.draw.circle(surface,(255,0,0),(int(self.position.x),int(self.position.y)),5,5)
+        self.notifier()
