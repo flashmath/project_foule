@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+from project_foule.src.Observable import *
 
 class Coord():
     """
@@ -13,12 +14,13 @@ class Coord():
         return 'Coordonnées du point : ' + '(' + str(self.x) + ";" + str(self.y) + ')'
                 
                 
-class Element():
+class Element(Observable):
     """
     une classe pour définir les éléments sur la carte
     """
     def __init__(self,position):     # Position de l'objet dans la carte
-        self.pos = position         
+        Observable.__init__(self)
+        self.pos = position
     
     def __str__(self):
         return 'Position : ' + '(' + str(self.pos.x) + ";" + str(self.pos.y) + ')'
@@ -35,7 +37,7 @@ class Voyageur(Element):
     une classe pour définir un Voyageur sur la carte
     """
     def __init__(self,position,destination):     # Position courante et destination
-        self.pos = position         
+        Element.__init__(self,position)
         self.dest = destination
     
     def __str__(self):
@@ -170,7 +172,6 @@ dimensions=Coord(10,10)
 
 # Création de la carte
 carte=Carte(dimensions,dimensions)
-carte.afficher_grille()
 
 # Création des 10 voyageurs
 #for i in range(2):
@@ -181,5 +182,3 @@ carte.ajouter_element(Voyageur(Coord(3,0),Coord(3,9)))
 carte.ajouter_element(Voyageur(Coord(3,9),Coord(3,0)))
 carte.ajouter_element(Voyageur(Coord(5,0),Coord(5,9)))
 carte.ajouter_element(Voyageur(Coord(5,9),Coord(5,0)))
-
-carte.move()
