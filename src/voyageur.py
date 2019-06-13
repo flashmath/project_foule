@@ -54,33 +54,123 @@ class Carte():
         self.dimCarte = dimensionsCarte          # dimension (largeur et hauteur) de la carte en pixels
         self.dimGrille = dimensionsGrille        # dimension (nombre de lignes et nombre de colonnes) de la grille
         self.elements = []                      # liste qui va contenir tous les élements de la carte
-        self.grille = dimensionsGrille.x*[dimensionsGrille.y*[False]]  # Matrice dont chaque élément vaut true (si un élément) ou false sinon 
+        self.grille = [[False for i in range(dimensionsGrille.x)] for j in range(dimensionsGrille.x)]  # Matrice dont chaque élément vaut true (si un élément) ou false sinon
+        self.compteurVoyageurs = 0     # Compte le nombre de voyageur 
         
     def ajouter_element(self,element):  # Méthode pour ajouter un élément à la carte
         self.grille[element.pos.x][element.pos.y]=True    # On indique dans grille qu'un élément est présent en (x,y)
         self.elements.append(element)                   # On ajoute cet élément à la liste des éléments de la carte 
+        self.compteurVoyageurs += 1
         
     def retirer_element(self,element):  # Méthode pour retirer un élément de la carte
         self.grille[element.pos.x][element.pos.y]=False  # On indique dans grille que l'élément n'est plus présent en (x,y) 
         self.elements.remove(element) # On retire cet élément de la liste des éléments de la carte
 
-    def deplacer_element(self,element):    # Fonction qui déplace un élément dans la carte
-        pass                               # A faire
+    def afficher_grille(self):
+        for i in range(self.dimGrille.x):
+            print(self.grille[i])
+        
+    def deplacer_voyageur(self,voyageur):
+        direction=Coord(voyageur.dest.x-voyageur.pos.x,voyageur.dest.y-voyageur.pos.y) # Vecteur direction
+        dvect=Coord(0,0)                            # Vecteur déplacement
+        if direction.x > 0 and direction.y > 0:
+            dvect.x = 1
+            dvect.y = 1
 
+        if direction.x < 0 and direction.y > 0:
+            dvect.x = -1
+            dvect.y = 1
+        
+        if direction.x > 0 and direction.y < 0:
+            dvect.x = 1
+            dvect.y = -1
+        
+        if direction.x < 0 and direction.y < 0:
+            dvect.x = -1
+            dvect.y = -1
+            
+        if direction.x == 0 and direction.y > 0:
+            dvect.x = 0
+            dvect.y = 1
+    
+        if direction.x == 0 and direction.y < 0:
+            dvect.x = 0
+            dvect.y = -1
+            
+        if direction.x > 0 and direction.y == 0:
+            dvect.x = 1
+            dvect.y = 0
+
+        if direction.x < 0 and direction.y == 0:
+            dvect.x = -1
+            dvect.y = 0
+        
+        # Mise à jour de la grille et de la position du voyageur
+        # 1ère solution : Si la case où doit se déplacer le voyageur n'ait pas libre, le voyageur ne se déplace pas
+        if self.grille[voyageur.pos.x+dvect.x][voyageur.pos.y+dvect.y]==False:
+           self.grille[voyageur.pos.x][voyageur.pos.y]=False
+           voyageur.pos.x += dvect.x
+           voyageur.pos.y += dvect.y
+           self.grille[voyageur.pos.x][voyageur.pos.y]=True
+        
+        # 2ème solution : Si la case où doit se déplacer le voyageur n'est pas libre, on cherche un case de libre et on choisit la meilleur (celle qui minime la distance au point de destination)
+        # if self.grille[voyageur.pos.x+dvect.x][voyageur.pos.y+dvect.y]==True: # Cas où la cas est occupée
+        #     liste_cases_vide=[]        # liste des cases vides autour du voyageur
+        #     if self.grille[voyageur.pos.x-1][voyageur.pos.y-1]==False:
+        #         liste_cases_vide.append(Coord(voyageur.pos.x-1,voyageur.pos.y-1))
+        #     if self.grille[voyageur.pos.x-1][voyageur.pos.y]==False:
+        #         liste_cases_vide.append(Coord(voyageur.pos.x-1,voyageur.pos.y))
+        #     if self.grille[voyageur.pos.x-1][voyageur.pos.y+1]==False:
+        #         liste_cases_vide.append(Coord(voyageur.pos.x-1,voyageur.pos.y+1))
+        #     if self.grille[voyageur.pos.x+1][voyageur.pos.y-1]==False:
+        #         liste_cases_vide.append(Coord(voyageur.pos.x+1,voyageur.pos.y-1))
+        #     if self.grille[voyageur.pos.x+1][voyageur.pos.y]==False:
+        #         liste_cases_vide.append(Coord(voyageur.pos.x+1,voyageur.pos.y))
+        #     if self.grille[voyageur.pos.x+1][voyageur.pos.y+1]==False:
+        #         liste_cases_vide.append(Coord(voyageur.pos.x+1,voyageur.pos.y+1))               
+        #     if self.grille[voyageur.pos.x][voyageur.pos.y-1]==False:
+        #         liste_cases_vide.append(Coord(voyageur.pos.x,voyageur.pos.y-1))
+        #     if self.grille[voyageur.pos.x][voyageur.pos.y+1]==False:
+        #         liste_cases_vide.append(Coord(voyageur.pos.x,voyageur.pos.y+1))
+        #     if not(liste_cases_vide):   # Si la liste n'est pas vide, on cherche le déplacement optimal
+        #         for point in liste_cases_vide:
+        #             distance2=point.x*voyageur.dest.x+point.y*voyageur.dest.y
+        #             distances.append(distance2)
+        #         i_minimum=distances.index(min(distances)) # Indice de la distance minimum
+        #         dvect=liste_case_vide[i_minimum]
+        #     else:                      # Toutes les cases alentours sont occupées
+        #         dvect=Coord(0,0) 
+        # # Cas où la case où veut se déplacer le voyageur est vide
+        # self.grille[voyageur.pos.x][voyageur.pos.y]=False
+        # voyageur.pos.x += dvect.x
+        # voyageur.pos.y += dvect.y
+        # self.grille[voyageur.pos.x][voyageur.pos.y]=True
+        # Fin de la 2ème solution
+        
+        # Suppression du voyageur de la carte dans le cas où il a atteint sa destination
+        if voyageur.pos.x==voyageur.dest.x and voyageur.pos.y==voyageur.dest.y:
+            self.retirer_element(voyageur)
+        
     def __str__(self):
         return 'Carte=' + '(' + str(self.dimCarte.x) + ";" + str(self.dimCarte.y) + ')' + '\n' + 'Grille=' + '(' + str(self.dimGrille.x) + ";" + str(self.dimGrille.y) + ')' + '\n' + 'Nb éléments : ' + str(len(self.elements))
      
-        
-p=Coord(2,3)
-d=Coord(5,6)
-v=Voyageur(p,d)
-print(v)
-np=Coord(8,9)
-v.setPos(np)
-print(v)
+from random import randint
+
+# Dimension de la grille
 dimensions=Coord(10,10)
-g=Carte(dimensions,dimensions)
-g.ajouter_element(v)
-print(g)
-g.retirer_element(v)
-print(g)
+
+# Création de la carte
+carte=Carte(dimensions,dimensions)
+carte.afficher_grille()
+
+# Création des 10 voyageurs
+#for i in range(2):
+#    carte.ajouter_element(Voyageur(Coord(randint(0,9),randint(0,9)),Coord(0,0)))
+carte.ajouter_element(Voyageur(Coord(5,1),Coord(5,8)))
+carte.ajouter_element(Voyageur(Coord(4,8),Coord(4,1)))
+
+while carte.compteurVoyageurs !=0 :       # Tant qu'il y a un voyageur dans la carte
+    for element in carte.elements:
+        carte.deplacer_voyageur(element)
+        carte.afficher_grille()
+        print('\n')
