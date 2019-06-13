@@ -1,3 +1,5 @@
+from project_foule.src.Carte import *
+
 class Element:
     """
             Classe gérant les éléments d'une carte
@@ -7,13 +9,19 @@ class Element:
         """
                     Initialise un voyageur
 
-                    :param x: position en x du voyageur
-                    :param y: position en y du voyageur
-                    :type x: float
-                    :type y: float
+                    :param depart : position de l element
+                    :param map : position de la map
+                    :type depart: Coord
+                    :type map: Carte
                     :return: retourne le voyageur
 
                     .. warning:: classe peu implémentée à finir
                 """
         self.map = map
         self.position = depart
+        self.map.addElement(self)
+
+    def collision(self, p):
+        return False
+
+
