@@ -1,6 +1,9 @@
-class Point():
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+class Coord():
     """
-    une classe pour les points
+    une classe pour les coordonnées d'un point de la carte
     """
     def __init__(self,x,y):
         self.x = x         
@@ -68,14 +71,14 @@ class Carte():
         return 'Carte=' + '(' + str(self.dimCarte.x) + ";" + str(self.dimCarte.y) + ')' + '\n' + 'Grille=' + '(' + str(self.dimGrille.x) + ";" + str(self.dimGrille.y) + ')' + '\n' + 'Nb éléments : ' + str(len(self.elements))
      
         
-p=Point(2,3)
-d=Point(5,6)
+p=Coord(2,3)
+d=Coord(5,6)
 v=Voyageur(p,d)
 print(v)
-np=Point(8,9)
+np=Coord(8,9)
 v.setPos(np)
 print(v)
-dimensions=Point(10,10)
+dimensions=Coord(10,10)
 g=Carte(dimensions,dimensions)
 g.ajouter_element(v)
 print(g)
