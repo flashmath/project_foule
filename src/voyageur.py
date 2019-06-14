@@ -42,11 +42,20 @@ class Voyageur(Element):
         xgrille = self.position.x-grille.lefttop.x
         ygrille = self.position.y-grille.lefttop.y
         grille[xgrille][ygrille]='x'
-        self.minDistanceGrille(grille)
+        #self.minDistanceGrille(grille)
+        self.calcul_distances(0,grille,xgrille,ygrille)
         # TODO : calcul des distances minimales sur les bords de la grille par rapport au point d'arrivée
         # TODO : recherche de la plus courte distance sur les bords de la grille
         # TODO : renvoi du chemin le plus court
         # TODO : retour du point d'arrivée
+
+    def calcul_distances(self,i,grille,x,y):
+        if grille[x][y]!='x':
+            grille[x][y]=i
+    
+
+
+
 
     def minDistanceGrille(self,grille):
         for i in range(30):
