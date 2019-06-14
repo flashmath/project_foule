@@ -22,8 +22,16 @@ class Element(Observable):
         self.map = map
         self.position = depart
         self.map.addElement(self)
+        self.type = "Element"
 
     def collision(self, p):
         return False
 
-
+    def inscrit_obstacle(self,grille):
+        # a l'arrache, on détermine un carré
+        for i in range(-5,6):
+            for j in range(-5,6):
+                x=self.position.x+i
+                y=self.position.y+j
+                if x>=0 and x<=99 and y>=0 and y<=99:
+                    grille[x][y]=1

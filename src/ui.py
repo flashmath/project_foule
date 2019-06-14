@@ -1,10 +1,12 @@
 import pygame
 import time
 from project_foule.src.elementvue import *
+from project_foule.src.vuefactory import *
 
 class UI:
 
     def __init__(self,carte):
+        self.vuefactory = VueFactory()
         self.largeur = 800
         self.title = "Foule"
 
@@ -40,7 +42,8 @@ class UI:
     def initialisation_graphiqe(self):
         for elt in self.carte.elements:
             # utilisation du design-pattern fabrique de classe envisageable
-            elt_vue = ElementVue(self,elt)
+            factory = self.vuefactory.get_factory(elt.type)
+            elt_vue = factory.createVue(self,elt)
             xcentre, ycentre, cote = self.conversion_coord(elt)
             elt_vue.rect.x = xcentre - cote
             elt_vue.rect.y = ycentre - cote

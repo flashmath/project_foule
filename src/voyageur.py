@@ -25,6 +25,7 @@ class Voyageur(Element):
         Element.__init__(self, depart, map)
         self.final = final
         self.vitesse = vitesse
+        self.type = "Voyageur"
 
     def direction(self):
         v1 = Coord(self.final.x-self.position.x, self.final.y-self.position.y)

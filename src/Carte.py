@@ -5,22 +5,41 @@ from project_foule.src.coord import *
 class Carte:
 
     def __init__(self,x,y):
+        # sous-grille de la carte
         self.grille = [[[] for i in range(10)] for j in range(10)]
+        # ensemble des éléments de la grille
         self.elements = []
+        # ensemble des voyageurs
         self.voyageurs = []
-        self.movents = []
+        # ensemble des obstacles
+        self.meubles = []
+        # dimensions de la carte
         self.width = x
         self.height = y
+        # grille des obstacles
+        self.obstacles = [[0 for i in range(100)] for j in range(100)]
 
     def addElement(self,element):
         self.elements.append(element)
         self.deplaceElement(element)
 
-    def addMovent(self,element):
-        self.movents.append(element)
+    def addMeubles(self,element):
+        self.meubles.append(element)
+        self.elements.append(element)
+        self.deplaceElement(element)
+        element.inscrit_obstacle(self.obstacles)
+
+    def addVoyageurs(self,element):
+        self.voyageurs.append(element)
+        self.elements.append(element)
         self.deplaceElement(element)
 
     def positionGrille(self, element):
+        '''
+        Renvoie la position dans la grille
+        :param element:
+        :return:
+        '''
         xgrille = int(element.position.x / self.width * 10)
         ygrille = int(element.position.y / self.height * 10)
         return xgrille,ygrille
@@ -35,13 +54,13 @@ class Carte:
 
     def detectElements(self,element):
         retour = []
-        for i in range(len(self.movents)):
-            retour.append(self.movents[i])
+        for i in range(len(self.elements)):
+            retour.append(self.elements[i])
         return retour
 
     def nouveau_pas(self):
-        for j in range(len(self.movents)):
-            voyageur = self.movents[j]
+        for j in range(len(self.voyageurs)):
+            voyageur = self.voyageurs[j]
 
             # Détection de l'environnement
             obstacles = self.detectElements(voyageur)
@@ -55,5 +74,16 @@ class Carte:
         # endTime=time()
         # time.sleep(1/25-(endTime-beginTime))
 
-
+    def obtenir_sous_grille(self,elt):
+        '''
+        Obtenir la sous-grille d'au maximum 9 cases contenant l'obstacle
+        :param elt: voyageur
+        :return: les coordonnées des points haut-gauche et bas-droite
+        '''
+        xgrille,ygrille=self.positionGrille(elt)
+        xlefttop=max(0,(xgrille-1)*10)
+        ylefttop=max(0,(ygrille-1)*10)
+        xrightbottom=min(100,(xgrille+1)*10)
+        yrightbottom=min(100,(xgrille+1)*10)
+        return xlefttop,ylefttop,xrightbottom,yrightbottom
 
