@@ -38,7 +38,39 @@ class Voyageur(Element):
             v1.y=0
         return v1
 
+    def decideMovement2(self,grille):
+        xgrille = self.position.x-grille.lefttop.x
+        ygrille = self.position.y-grille.lefttop.y
+        grille[xgrille][ygrille]='x'
+        self.minDistanceGrille(grille)
+        # TODO : calcul des distances minimales sur les bords de la grille par rapport au point d'arrivée
+        # TODO : recherche de la plus courte distance sur les bords de la grille
+        # TODO : renvoi du chemin le plus court
+        # TODO : retour du point d'arrivée
+
+    def minDistanceGrille(self,grille):
+        for i in range(30):
+            for col in range(grille.width):
+                for row in range(grille.height):
+                    if (i==0 and grille[col][row]=='x') or (i!=0 and grille[col][row]==i):
+                        for deltax in range(-1,2):
+                            for deltay in range(-1,2):
+                                newx,newy = col+deltax,row+deltay
+                                if newx>=0 and newx<len(grille.width) and newy>=0 and newy<len(grille.height):
+                                    if grille[col][row]==0:
+                                        grille[col][row]==i
+
+
+
+
+
+
+
+
+
     def decideMovement(self, obstacles):
+
+
         directionOrigin = self.direction()
         newCoord = Coord(self.position.x + directionOrigin.x, self.position.y + directionOrigin.y)
         possible = True
@@ -54,3 +86,16 @@ class Voyageur(Element):
         self.position.y = newCoord.y
         self.map.deplaceElement(self)
         self.notifier()
+
+    def getobstacle(self,grille):
+        '''
+        Inscrit ses points obstacles dans la grille
+        :param grille:
+        :return:
+        '''
+        for i in range(-5,6):
+            for j in range(-5,6):
+                xpos = self.position.x-grille.lefttop.x
+                ypos = self.position.y-grille.lefttop.y
+                if xpos>=0 and xpos<grille.width and ypos>=0 and ypos<grille.height:
+                    grille[xpos,ypos]=-1

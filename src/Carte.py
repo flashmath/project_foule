@@ -1,6 +1,7 @@
 from project_foule.src.voyageur import *
 from project_foule.src.Element import *
 from project_foule.src.coord import *
+from project_foule.src.subgrille import *
 
 class Carte:
 
@@ -63,11 +64,26 @@ class Carte:
             voyageur = self.voyageurs[j]
 
             # Détection de l'environnement
+            xgrille,ygrille=self.positionGrille(voyageur)
+            minx = max(0,xgrille-1)
+            miny = max(0,ygrille-1)
+            maxx = min(9,xgrille+1)
+            maxy = min(9,xgrille+1)
+            subgrille = SubGrille(self.obstacles,Coord(minx*10,miny*10),(maxx-minx)*10,(maxy-miny)*10)
+
+
             obstacles = self.detectElements(voyageur)
             obstacles.remove(voyageur)
 
+            for o in obstacles:
+                if o is Voyageur:
+                    o.getobstacle(subgrille)
+
             # décide du mouvement
             newCoord = voyageur.decideMovement(obstacles)
+
+            #  Mouvement en cours
+            # newCoord = voyageur.decideMovement2(subgrille)
 
             # effectue son mouvement
             voyageur.deplace(newCoord)

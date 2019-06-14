@@ -34,4 +34,4 @@ class Element(Observable):
                 x=self.position.x+i
                 y=self.position.y+j
                 if x>=0 and x<=99 and y>=0 and y<=99:
-                    grille[x][y]=1
+                    grille[x][y]=-1
